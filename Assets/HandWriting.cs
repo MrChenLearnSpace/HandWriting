@@ -42,7 +42,9 @@ public class HandWriting : MonoBehaviour
             targetMateral.SetTexture("_MainTex", raw);
 
         }
-
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            Reconfig();
+        }
     }
     public void Reconfig() {
         Tensor input = new Tensor(raw, 1);
