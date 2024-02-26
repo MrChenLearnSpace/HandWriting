@@ -12,7 +12,7 @@ public class HandWriting : MonoBehaviour
     public Color scolor;
     public NNModel m_Modle;
 
-    float temp;
+    public float temp;
     Model model;
     IWorker engine;
     float[] prediected;
@@ -23,7 +23,7 @@ public class HandWriting : MonoBehaviour
         raw = new Texture2D(width, width);
         targetMateral.SetTexture("_MainTex", raw);
 
-        temp = 64.0f / Camera.main.pixelWidth;
+        temp = (float)width / Camera.main.pixelWidth;
         model = ModelLoader.Load(m_Modle);
         engine = WorkerFactory.CreateWorker(model, WorkerFactory.Device.CPU);
     }
@@ -31,14 +31,7 @@ public class HandWriting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0)) {
-            //print(Input.mousePosition);
-            raw =null;
 
-            raw = new Texture2D(width, width);
-            targetMateral.SetTexture("_MainTex", raw);
-
-        }
         if(Input.GetMouseButton(0)) {
             //print(Input.mousePosition);
             Vector2 pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
@@ -49,18 +42,22 @@ public class HandWriting : MonoBehaviour
             targetMateral.SetTexture("_MainTex", raw);
 
         }
-        if(Input.GetMouseButtonUp(0)) {
-            
-            Tensor input = new Tensor(raw, 1);
-            
-            Tensor output = engine.Execute(input).PeekOutput();
-            input.Dispose();
-            prediected = output.AsFloats().ToArray();
-            string result = "";
-            for(int i = 0; i < prediected.Length; i++) {
-                result +=  prediected[i] + "  ";
-            }
-            print(" Max: " + Array.IndexOf(prediected,prediected.Max())+"  " +"Predicted: " + result );
+
+    }
+    public void Reconfig() {
+        Tensor input = new Tensor(raw, 1);
+
+        Tensor output = engine.Execute(input).PeekOutput();
+        input.Dispose();
+        prediected = output.AsFloats().ToArray();
+        string result = "";
+        for (int i = 0; i < prediected.Length; i++) {
+            result += prediected[i] + "  ";
         }
+        print(" Max: " + Array.IndexOf(prediected, prediected.Max()) + "  " + "Predicted: " + result);
+        raw = null;
+
+        raw = new Texture2D(width, width);
+        targetMateral.SetTexture("_MainTex", raw);
     }
 }
