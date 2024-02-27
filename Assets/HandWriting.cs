@@ -4,6 +4,7 @@ using Unity.Barracuda;
 using UnityEngine;
 using System.Linq;
 using System;
+using UnityEngine.UI;
 public class HandWriting : MonoBehaviour
 {
     public int width = 28;
@@ -11,6 +12,7 @@ public class HandWriting : MonoBehaviour
     public Material targetMateral;
     public Color scolor;
     public NNModel m_Modle;
+    public Text uiDisplay;
 
     public float temp;
     public Vector4 maxDis;
@@ -113,6 +115,7 @@ public class HandWriting : MonoBehaviour
         for (int i = 0; i < prediected.Length; i++) {
             result += prediected[i] + "  ";
         }
+        uiDisplay.text = Array.IndexOf(prediected, prediected.Max()).ToString();
         print(" Max: " + Array.IndexOf(prediected, prediected.Max()) + "  " + "Predicted: " + result);
         InitRecofig();
     }
