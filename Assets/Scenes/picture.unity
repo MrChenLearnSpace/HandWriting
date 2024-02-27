@@ -709,9 +709,10 @@ MonoBehaviour:
   width: 28
   raw: {fileID: 0}
   targetMateral: {fileID: 2100000, guid: 414d69b39aa0a024a9c0b5ea904dd6dd, type: 2}
-  scolor: {r: 0, g: 0.06273818, b: 1, a: 1}
+  scolor: {r: 1, g: 1, b: 1, a: 1}
   m_Modle: {fileID: 5022602860645237092, guid: 6bca74f96926c834abedaee684e8c5b7, type: 3}
   temp: 0
+  maxDis: {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &1748164136
 Transform:
   m_ObjectHideFlags: 0

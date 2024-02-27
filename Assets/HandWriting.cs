@@ -51,19 +51,59 @@ public class HandWriting : MonoBehaviour
         }
     }
     public void Reconfig() {
-        //int x = (int)(((int)maxDis.x + (int)maxDis.y)*0.5f);
-        //int y = (int)(((int)maxDis.z + (int)maxDis.w)*0.5f);
-        ////将图片平移到中心
-        //float x1 =  width * 0.5f  - x;
-        //float y1 =  width * 0.5f  - y;
-        //for(int i=0;i<width;i++)
-        //    for(int j=0;j<width;j++) {
+        int x = (int)(((int)maxDis.x + (int)maxDis.y) * 0.5f);
+        int y = (int)(((int)maxDis.z + (int)maxDis.w) * 0.5f);
+        //将图片平移到中心
+        float x1 = width * 0.5f - x;
+        float y1 = width * 0.5f - y;
+        if (x1<0&&y1<0) {
+            for (int i = 0; i < width; i++)
+                for (int j = 0; j < width; j++) {
+                    if (raw.GetPixel(i, j) == scolor) {
+                        raw.SetPixel(i, j, Color.black);
+                        raw.SetPixel((int)(i + x1), (int)(j + y1), scolor);
+                    }
+                }
+           // print("111111111111");
+        }
+        else if (x1 >= 0 && y1 < 0) {
+            for (int i = width - 1; i >= 0; i--)
+                for (int j = 0; j < width; j++) {
+                    if (raw.GetPixel(i, j) == scolor) {
+                        raw.SetPixel(i, j, Color.black);
+                        raw.SetPixel((int)(i + x1), (int)(j + y1), scolor);
+                    }
+                }
+          // print("22222222222222");
+        }
+        else if (x1 < 0 && y1 >= 0) {
+            for (int i = 0; i < width; i++)
+                for (int j = 0; j < width; j++) {
+                    if (raw.GetPixel(i, j) == scolor) {
+                        raw.SetPixel(i, j, Color.black);
+                        raw.SetPixel((int)(i + x1), (int)(j + y1), scolor);
+                    }
+                }
+           // print("3333333");
+        }
+        else {
+            for (int i = width; i >= 0; i--)
+                for (int j = width; j >= 0; j--) {
+                    if (raw.GetPixel(i, j) == scolor) {
+                        raw.SetPixel(i, j, Color.black);
+                        raw.SetPixel((int)(i + x1), (int)(j + y1), scolor);
+                    }
+                }
+           // print("444444444444");
+        }
+        //for (int i = 0; i < width; i++)
+        //    for (int j = 0; j < width; j++) {
         //        if (raw.GetPixel(i, j) == scolor) {
-        //            raw.SetPixel(i, j, Color.white);
+        //            raw.SetPixel(i, j, Color.black);
         //            raw.SetPixel((int)(i + x1), (int)(j + y1), scolor);
         //        }
         //    }
-        //raw.Apply();
+        raw.Apply();
         Tensor input = new Tensor(raw, 1);
 
         Tensor output = engine.Execute(input).PeekOutput();
@@ -82,7 +122,7 @@ public class HandWriting : MonoBehaviour
         raw = new Texture2D(width, width);
         for(int i = 0; i < width; i++)
             for (int j = 0; j < width; j++)
-                raw.SetPixel(i, j, Color.white);
+                raw.SetPixel(i, j, Color.black);
         raw.Apply();
         targetMateral.SetTexture("_MainTex", raw);
         maxDis = new Vector4(width, 0, width, 0);
