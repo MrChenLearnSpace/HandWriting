@@ -13,6 +13,7 @@ public class HandWriting : MonoBehaviour
     public NNModel m_Modle;
 
     public float temp;
+    public Vector4 maxDis;
     Model model;
     IWorker engine;
     float[] prediected;
@@ -20,8 +21,7 @@ public class HandWriting : MonoBehaviour
     void Start()
     {
 
-        raw = new Texture2D(width, width);
-        targetMateral.SetTexture("_MainTex", raw);
+       InitRecofig();
 
         temp = (float)width / Camera.main.pixelWidth;
         model = ModelLoader.Load(m_Modle);
@@ -37,6 +37,10 @@ public class HandWriting : MonoBehaviour
             Vector2 pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             //print(Camera.main.pixelWidth);
             pos *=temp;
+            maxDis.x = Math.Min(maxDis.x,(int) pos.x);
+            maxDis.y = Math.Max(maxDis.y, (int)pos.x);
+            maxDis.z = Math.Min(maxDis.z, (int)pos.y);
+            maxDis.w = Math.Max(maxDis.w, (int)pos.y);
             raw.SetPixel((int)pos.x, (int)pos.y,scolor);
             raw.Apply();
             targetMateral.SetTexture("_MainTex", raw);
@@ -47,6 +51,19 @@ public class HandWriting : MonoBehaviour
         }
     }
     public void Reconfig() {
+        //int x = (int)(((int)maxDis.x + (int)maxDis.y)*0.5f);
+        //int y = (int)(((int)maxDis.z + (int)maxDis.w)*0.5f);
+        ////将图片平移到中心
+        //float x1 =  width * 0.5f  - x;
+        //float y1 =  width * 0.5f  - y;
+        //for(int i=0;i<width;i++)
+        //    for(int j=0;j<width;j++) {
+        //        if (raw.GetPixel(i, j) == scolor) {
+        //            raw.SetPixel(i, j, Color.white);
+        //            raw.SetPixel((int)(i + x1), (int)(j + y1), scolor);
+        //        }
+        //    }
+        //raw.Apply();
         Tensor input = new Tensor(raw, 1);
 
         Tensor output = engine.Execute(input).PeekOutput();
@@ -57,9 +74,17 @@ public class HandWriting : MonoBehaviour
             result += prediected[i] + "  ";
         }
         print(" Max: " + Array.IndexOf(prediected, prediected.Max()) + "  " + "Predicted: " + result);
+        InitRecofig();
+    }
+    void InitRecofig() {
         raw = null;
 
         raw = new Texture2D(width, width);
+        for(int i = 0; i < width; i++)
+            for (int j = 0; j < width; j++)
+                raw.SetPixel(i, j, Color.white);
+        raw.Apply();
         targetMateral.SetTexture("_MainTex", raw);
+        maxDis = new Vector4(width, 0, width, 0);
     }
 }

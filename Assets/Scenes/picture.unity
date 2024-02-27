@@ -671,8 +671,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1582748470}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 12, y: 12, z: 1}
+  m_LocalPosition: {x: 0, y: 0.9, z: -8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -709,7 +709,7 @@ MonoBehaviour:
   width: 28
   raw: {fileID: 0}
   targetMateral: {fileID: 2100000, guid: 414d69b39aa0a024a9c0b5ea904dd6dd, type: 2}
-  scolor: {r: 0, g: 0, b: 0, a: 1}
+  scolor: {r: 0, g: 0.06273818, b: 1, a: 1}
   m_Modle: {fileID: 5022602860645237092, guid: 6bca74f96926c834abedaee684e8c5b7, type: 3}
   temp: 0
 --- !u!4 &1748164136
